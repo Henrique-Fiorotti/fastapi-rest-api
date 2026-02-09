@@ -35,6 +35,7 @@ def get_user(id: int):
     for user in users:
         if user["id"] == id:
             return user
+    raise HTTPException(status_code=404, detail="User not found")
         
 @app.post("/user", response_model=UserPost, status_code=status.HTTP_201_CREATED)
 def post_user(usuario: UserPost):
@@ -49,7 +50,7 @@ def post_user(usuario: UserPost):
     }
 
     if usuario.age < 18:
-        raise HTTPException(status_code=422, detail="Idade menor que 18 anos")
+        raise HTTPException(status_code=422, detail="Age not permited")
 
     users.append(new_user)
     return new_user
@@ -59,3 +60,5 @@ def delete_user(id: int):
     for user in users:
         if user["id"] == id:
             users.remove(user)
+            return
+    raise HTTPException(status_code=404, detail="User not found")

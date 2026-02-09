@@ -6,7 +6,7 @@ This project started as a simple CRUD implementation and is being **progressivel
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - Python 3.10+
 - FastAPI
@@ -19,7 +19,7 @@ This project started as a simple CRUD implementation and is being **progressivel
 
 ---
 
-## 📌 Features
+## Features
 
 - User CRUD operations
 - Data validation with Pydantic
@@ -30,7 +30,7 @@ This project started as a simple CRUD implementation and is being **progressivel
 
 ---
 
-## 🧱 Current Project Structure
+## Current Project Structure
 
 ```text
 .

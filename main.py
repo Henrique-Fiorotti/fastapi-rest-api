@@ -5,21 +5,21 @@ from typing import Optional
 app = FastAPI()
 
 users = [
-    {"id": 1, "name": "Daniel", "age": 34, "email": "daniel@gmail.com"},
-    {"id": 2, "name": "Alice", "age": 19, "email": "alice@gmail.com"}
+    {"id": 1, "name": "Daniel", "age": 34, "mail": "daniel@gmail.com"},
+    {"id": 2, "name": "Alice", "age": 19, "mail": "alice@gmail.com"}
     ]
 
 class UserResponse(BaseModel):
     id: int
     name: str
     age: int
-    email: str
+    mail: str
 
 
 class UserPost(BaseModel):
     name: str
     age: int
-    email: str
+    mail: str
     password: str
 
 @app.get("/")
@@ -44,7 +44,7 @@ def post_user(usuario: UserPost):
         "id": new_id,
         "name": usuario.name,
         "age": usuario.age,
-        "email": usuario.email,
+        "mail": usuario.mail,
         "password": usuario.password
     }
 

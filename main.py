@@ -48,6 +48,9 @@ def post_user(usuario: UserPost):
         "password": usuario.password
     }
 
+    if usuario.age < 18:
+        raise HTTPException(status_code=422, detail="Idade menor que 18 anos")
+
     users.append(new_user)
     return new_user
 

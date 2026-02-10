@@ -72,7 +72,10 @@ def patch_user(id: int, userPatch: UserPatch):
             if userPatch.name is not None:
                 user["name"] = userPatch.name
             if userPatch.age is not None:
-                user["age"] = userPatch.age
+                if userPatch.age > 18:
+                    user["age"] = userPatch.age
+                else:
+                    raise HTTPException(status_code=422, detail="Age not valid")
             if userPatch.mail is not None:
                 user["mail"] = userPatch.mail
             if userPatch.password is not None:

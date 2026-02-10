@@ -21,6 +21,12 @@ class UserPost(BaseModel):
     age: int
     mail: str
     password: str
+    
+class UserPatch(BaseModel):
+    name: str | None = None
+    age: int | None = None
+    mail: str | None = None
+    password: str | None = None
 
 @app.get("/")
 def api():
@@ -49,11 +55,31 @@ def post_user(usuario: UserPost):
         "password": usuario.password
     }
 
+    for user in users:
+        if user["mail"] == usuario.mail:
+            raise HTTPException(status_code=409, detail="Email already exists")
     if usuario.age < 18:
         raise HTTPException(status_code=422, detail="Age not permited")
 
     users.append(new_user)
     return new_user
+
+@app.patch("/user/{id}")
+def patch_user(id: int, userPatch: UserPatch):
+    
+    for user in users:
+        if user["id"] == id:
+            if userPatch.name is not None:
+                user["name"] = userPatch.name
+            if userPatch.age is not None:
+                user["age"] = userPatch.age
+            if userPatch.mail is not None:
+                user["mail"] = userPatch.mail
+            if userPatch.password is not None:
+                user["password"] = userPatch.password
+            return user
+    raise HTTPException(status_code=404, detail="User not found")
+        
 
 @app.delete("/user/{id}")
 def delete_user(id: int):

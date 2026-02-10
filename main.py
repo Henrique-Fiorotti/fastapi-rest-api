@@ -23,10 +23,10 @@ class UserPost(BaseModel):
     password: str
     
 class UserPatch(BaseModel):
-    name: str | None = None
-    age: int | None = None
-    mail: str | None = None
-    password: str | None = None
+    name: Optional[str] = None
+    age: Optional[int] = None
+    mail: Optional[str] = None
+    password: Optional[str] = None
 
 @app.get("/")
 def api():

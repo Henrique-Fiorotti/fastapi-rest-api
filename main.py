@@ -19,11 +19,6 @@ class UserResponse(BaseModel):
     age: int
     mail: str
 
-class UserPost(BaseModel):
-    name: str
-    age: int
-    mail: str
-
 class UserPatch(BaseModel):
     name: Optional[str] = None
     age: Optional[int] = None
@@ -49,8 +44,8 @@ def get_user(id: int):
     raise HTTPException(status_code=404, detail="User not found")
 
 # Create a new user
-@app.post("/user", response_model=UserPost, status_code=status.HTTP_201_CREATED)
-def post_user(usuario: UserPost):
+@app.post("/user", response_model=UserPatch, status_code=status.HTTP_201_CREATED)
+def post_user(usuario: UserPatch):
     new_id = max(user["id"] for user in users) + 1
 
     new_user = {

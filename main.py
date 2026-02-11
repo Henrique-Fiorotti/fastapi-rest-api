@@ -1,6 +1,6 @@
 # Importation
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, EmailStr, field_validator
 from typing import Optional
 
 # Iniciatializing FastAPI
@@ -18,6 +18,25 @@ class UserResponse(BaseModel):
     name: str
     age: int
     mail: str
+
+class UserPost(BaseModel):
+    name: str
+    age: int = Field(..., ge=18)
+    mail: EmailStr
+    password: str = Field(..., min_length=3)
+    
+    @field_validator("mail") # Email POST Validation
+    @classmethod
+    def validate_company_email(cls, value):
+        if not value.endswith("@company.com"):
+            raise ValueError("Email must be from domain @company.com")
+        return value
+    
+class UserPut(BaseModel):
+    name: str
+    age: int
+    mail: str
+    password: str
 
 class UserPatch(BaseModel):
     name: Optional[str] = None
@@ -44,8 +63,8 @@ def get_user(id: int):
     raise HTTPException(status_code=404, detail="User not found")
 
 # Create a new user
-@app.post("/user", response_model=UserPatch, status_code=status.HTTP_201_CREATED)
-def post_user(usuario: UserPatch):
+@app.post("/user", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def post_user(usuario: UserPost):
     new_id = max(user["id"] for user in users) + 1
 
     new_user = {
@@ -59,11 +78,19 @@ def post_user(usuario: UserPatch):
     for user in users:
         if user["mail"] == usuario.mail:
             raise HTTPException(status_code=409, detail="Email already exists")
-    if usuario.age < 18:
-        raise HTTPException(status_code=422, detail="Age not permited")
 
     users.append(new_user)
     return new_user
+
+@app.put("/user/{id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+def put_user(id: int, usuario: UserPut):
+    for user in users:
+        if user["id"] == id:
+            user["name"] = usuario.name
+            user["age"] = usuario.age
+            user["mail"] = usuario.mail
+            user["password"] = usuario.password
+            
 
 # Patch some requested informations in user
 @app.patch("/user/{id}", response_model=UserResponse, status_code=status.HTTP_200_OK)

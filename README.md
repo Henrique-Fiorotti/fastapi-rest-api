@@ -14,8 +14,6 @@ This project started as a simple CRUD implementation and is being **progressivel
 - Uvicorn
 - (Upcoming) JWT Authentication
 - (Upcoming) Password hashing
-- (Upcoming) Database integration
-- (Upcoming) Automated tests
 
 ---
 

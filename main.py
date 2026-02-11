@@ -32,17 +32,17 @@ class UserPatch(BaseModel):
     password: Optional[str] = None
 
 # Verify if API is Working (GET)
-@app.get("/")
+@app.get("/", status_code=status.HTTP_200_OK)
 def api():
     return{"message": "API Started"}
 
 # List of all users (GET)
-@app.get("/users", response_model= list[UserResponse])
+@app.get("/users", response_model= list[UserResponse], status_code=status.HTTP_200_OK)
 def list_users():
     return users
 
 # Search for a specific user (GET)
-@app.get("/user/{id}", response_model= UserResponse)
+@app.get("/user/{id}", response_model= UserResponse, status_code=status.HTTP_200_OK)
 def get_user(id: int):
     for user in users:
         if user["id"] == id:
@@ -72,7 +72,7 @@ def post_user(usuario: UserPost):
     return new_user
 
 # Patch some requested informations in user
-@app.patch("/user/{id}")
+@app.patch("/user/{id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def patch_user(id: int, userPatch: UserPatch):
     
     for user in users:
@@ -92,7 +92,7 @@ def patch_user(id: int, userPatch: UserPatch):
     raise HTTPException(status_code=404, detail="User not found")
         
 # Delete user
-@app.delete("/user/{id}")
+@app.delete("/user/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(id: int):
     for user in users:
         if user["id"] == id:

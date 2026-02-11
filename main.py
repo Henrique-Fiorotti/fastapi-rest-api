@@ -23,7 +23,6 @@ class UserPost(BaseModel):
     name: str
     age: int
     mail: str
-    password: str
 
 class UserPatch(BaseModel):
     name: Optional[str] = None

@@ -40,19 +40,22 @@ class UserPut(BaseModel):
 
 class UserPatch(BaseModel):
     name: Optional[str] = None
-    age: Optional[int] = None
+    age: Optional[int] = Field(default=None, ge=18)
     mail: Optional[str] = None
-    password: Optional[str] = None
+    password: Optional[str] = Field(default=None, min_length=3)
+    
 
 # Verify if API is Working (GET)
 @app.get("/", status_code=status.HTTP_200_OK)
 def api():
     return{"message": "API Started"}
 
+
 # List of all users (GET)
 @app.get("/users", response_model= list[UserResponse], status_code=status.HTTP_200_OK)
 def list_users():
     return users
+
 
 # Search for a specific user (GET)
 @app.get("/user/{id}", response_model= UserResponse, status_code=status.HTTP_200_OK)
@@ -61,6 +64,7 @@ def get_user(id: int):
         if user["id"] == id:
             return user
     raise HTTPException(status_code=404, detail="User not found")
+
 
 # Create a new user
 @app.post("/user", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
@@ -82,6 +86,8 @@ def post_user(usuario: UserPost):
     users.append(new_user)
     return new_user
 
+
+# PUT user
 @app.put("/user/{id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def put_user(id: int, usuario: UserPut):
     for user in users:
@@ -114,6 +120,7 @@ def patch_user(id: int, userPatch: UserPatch):
                 user["password"] = userPatch.password
             return user
     raise HTTPException(status_code=404, detail="User not found")
+        
         
 # Delete user
 @app.delete("/user/{id}", status_code=status.HTTP_204_NO_CONTENT)

@@ -91,6 +91,9 @@ def put_user(id: int, usuario: UserPut):
             user["mail"] = usuario.mail
             user["password"] = usuario.password
             
+            return user
+    raise HTTPException(status_code=404, detail="User not found")
+            
 
 # Patch some requested informations in user
 @app.patch("/user/{id}", response_model=UserResponse, status_code=status.HTTP_200_OK)

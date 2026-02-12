@@ -35,14 +35,28 @@ class UserPost(BaseModel):
 class UserPut(BaseModel):
     name: str
     age: int
-    mail: str
-    password: str
+    mail: EmailStr
+    password: str = Field(..., min_length=3)
+    
+    @field_validator("mail")
+    @classmethod
+    def validate_company_email(cls, value):
+        if not value.endswith("@company.com"):
+            raise ValueError("Email must be from domain @company.com")
+        return value
 
 class UserPatch(BaseModel):
     name: Optional[str] = None
     age: Optional[int] = Field(default=None, ge=18)
-    mail: Optional[str] = None
+    mail: Optional[EmailStr] = None
     password: Optional[str] = Field(default=None, min_length=3)
+    
+    @field_validator("mail")
+    @classmethod
+    def validate_company_email(cls, value):
+        if not value.endswith("@company.com"):
+            raise ValueError("Email must be from domain @company.com")
+        return value
     
 
 # Verify if API is Working (GET)

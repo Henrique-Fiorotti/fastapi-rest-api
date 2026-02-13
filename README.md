@@ -20,11 +20,12 @@ This project started as a simple CRUD implementation and is being **progressivel
 ## Features
 
 - User CRUD operations
-- Data validation with Pydantic
+- Data custom validation with Pydantic
 - Secure API responses using `response_model`
 - Proper error handling with HTTPException
 - Correct HTTP status codes (200, 201, 404, 409, etc.)
 - Swagger and ReDoc automatic documentation
+
 
 ---
 

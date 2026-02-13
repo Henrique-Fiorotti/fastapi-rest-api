@@ -33,8 +33,12 @@ This project started as a simple CRUD implementation and is being **progressivel
 
 ```text
 .
-├── app/
-│   └── main.py
-├── requirements.txt
-└── README.md
+app/
+│
+├── main.py
+├── models.py
+├── schemas.py
+├── services.py
+└── routes/
+    └── users.py
 

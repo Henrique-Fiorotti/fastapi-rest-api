@@ -14,8 +14,6 @@ def api():
 def list_users():
     return users
 
-#Alteração teste
-
 
 # Search for a specific user (GET)
 @app.get("/user/{id}", response_model= UserResponse, status_code=status.HTTP_200_OK)
